@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>QR Code Scanner</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+    <style>
+    html {
+        height: 100%;
+      }
+      
+      body {
+        font-family: sans-serif;
+        padding: 0 10px;
+        height: 100%;
+        background:rgb(201, 201, 201);
+        margin: 0;
+      }
+      
+      h1 {
+        color:blueviolet;
+        margin: 0;
+        padding: 15px;
+      }
+      
+      #container {
+        text-align: center;
+        margin: 0;
+      }
+      
+      #qr-canvas {
+        position: fixed;
+        
+        right: 0;
+        bottom: 0;
+        
+        min-width: 100%; 
+        min-height: 100%;  
+        
+       }
+      
+      #btn-scan-qr {
+        cursor: pointer;
+      }
+      
+      #btn-scan-qr{
+        background-color: rgb(5, 5, 5);
+        color: white;
+        padding: 12px 16px;
+        cursor: pointer;
+        opacity: 0.8;
+        position: fixed;
+        bottom: 23px;
+        right: 28px;
+ 
+        border-radius: 12px;
+        text-align: center;
+        font-size: 48px;
+      }
+      #btn-scan-qr:hover {
+        background-color:rgb(107, 83, 107);
+      }
+      
+      #qr-result {
+        font-size: 1.2em;
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 700px;
+        background-color: white;
+      }
+
+      form.example input[type=text]{
+        padding: 10px;
+        font-size: 17px;
+        border: 1px solid rgb(255, 254, 254);
+        float: left;
+        width: 80%;
+        background: #ffffff; 
+         border-radius: 25px;
+
+      }
+      form.example button {
+  float: left;
+  width: 10%;
+  padding: 10px;
+  background: #000000;
+  color: rgb(255, 255, 255);
+  font-size: 17px;
+  border: 1px solid rgb(255, 253, 253);
+  border-left: none;
+  cursor: pointer;  
+  border-radius: 25px;
+
+}
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgb(40, 67, 78);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #b1a6a6;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: none;
+}
+
+th, td {
+  text-align: left;
+  font-weight: bold;
+}
+
+tr { 
+  border-radius: 25px;
+  border: 2px solid #547788;
+  border-width: 1px 0;
+}
+
+img {
+  border-radius: 50%;
+  width: 50px;
+  padding: 5px;
+}
+
+#lbl{
+  color:rgb(72, 95, 116) ;
+  font-family: courier; 
+  font-size: 50px; 
+  padding: 100px;
+}
+      </style>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://rawgit.com/sitepoint-editors/jsqrcode/master/src/qr_packed.js"></script><!-- Latest compiled and minified CSS -->
+    
+    
+    
+
+  </head>
+
+  <body>
+    
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="#">About</a>
+      <a href="#">Settings</a>
+      <a href="#">Account</a>
+      <a href="#">Help</a>
+      <a href="#">Logout</a>
+
+    </div>
+    
+    <button><span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span> </button>
+    <label id="lbl"><b>KHASS</b></label>
+      <br>
+      
+      <form class="example" action="/action_page.php">
+        <input type="text" placeholder="     Search...." name="search">
+        <button type="submit"><i class="fa fa-search"></i></button>
+      </form>
+          
+      <br>
+      <br>
+      <br>
+
+      <table>
+        
+        <tr>
+          <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgwL4r2DN1qg91OOqIViiv0Uxw-9yqo-PiQ&usqp=CAU" alt="Avatar"></td>
+          <td >Venugopal Iyer</td>
+          <td style="color: rgb(15, 93, 104);">Mechanical</td>
+          <td style="color: rgb(255, 0, 0);">30/02/2021 10:50 AM</td>
+        </tr>
+        <tr>
+          <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgwL4r2DN1qg91OOqIViiv0Uxw-9yqo-PiQ&usqp=CAU" alt="Avatar"></td>
+          <td >Venugopal Iyer</td>
+          <td style="color: rgb(15, 93, 104);">Mechanical</td>
+          <td style="color: rgb(255, 0, 0);">30/02/2021 10:50 AM</td>
+        </tr>
+        <tr>
+          <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgwL4r2DN1qg91OOqIViiv0Uxw-9yqo-PiQ&usqp=CAU" alt="Avatar"></td>
+          <td >Venugopal Iyer</td>
+          <td style="color: rgb(15, 93, 104);">Mechanical</td>
+          <td style="color: rgb(255, 0, 0);">30/02/2021 10:50 AM</td>
+        </tr>
+        <tr>
+          <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgwL4r2DN1qg91OOqIViiv0Uxw-9yqo-PiQ&usqp=CAU" alt="Avatar"></td>
+          <td >Venugopal Iyer</td>
+          <td style="color: rgb(15, 93, 104);">Mechanical</td>
+          <td style="color: rgb(255, 0, 0);">30/02/2021 10:50 AM</td>
+        </tr>
+        <tr>
+          <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgwL4r2DN1qg91OOqIViiv0Uxw-9yqo-PiQ&usqp=CAU" alt="Avatar"></td>
+          <td >Venugopal Iyer</td>
+          <td style="color: rgb(15, 93, 104);">Mechanical</td>
+          <td style="color: rgb(255, 0, 0);">30/02/2021 10:50 AM</td>
+        </tr>
+        <tr>
+          <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgwL4r2DN1qg91OOqIViiv0Uxw-9yqo-PiQ&usqp=CAU" alt="Avatar"></td>
+          <td >Venugopal Iyer</td>
+          <td style="color: rgb(15, 93, 104);">Mechanical</td>
+          <td style="color: rgb(255, 0, 0);">30/02/2021 10:50 AM</td>
+        </tr>
+        <tr>
+          <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgwL4r2DN1qg91OOqIViiv0Uxw-9yqo-PiQ&usqp=CAU" alt="Avatar"></td>
+          <td >Venugopal Iyer</td>
+          <td style="color: rgb(15, 93, 104);">Mechanical</td>
+          <td style="color: rgb(255, 0, 0);">30/02/2021 10:50 AM</td>
+        </tr>
+        <tr>
+          <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgwL4r2DN1qg91OOqIViiv0Uxw-9yqo-PiQ&usqp=CAU" alt="Avatar"></td>
+          <td >Venugopal Iyer</td>
+          <td style="color: rgb(15, 93, 104);">Mechanical</td>
+          <td style="color: rgb(255, 0, 0);">30/02/2021 10:50 AM</td>
+        </tr>
+        <tr>
+          <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgwL4r2DN1qg91OOqIViiv0Uxw-9yqo-PiQ&usqp=CAU" alt="Avatar"></td>
+          <td >Venugopal Iyer</td>
+          <td style="color: rgb(15, 93, 104);">Mechanical</td>
+          <td style="color: rgb(255, 0, 0);">30/02/2021 10:50 AM</td>
+        </tr>
+        <tr>
+          <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgwL4r2DN1qg91OOqIViiv0Uxw-9yqo-PiQ&usqp=CAU" alt="Avatar"></td>
+          <td >Venugopal Iyer</td>
+          <td style="color: rgb(15, 93, 104);">Mechanical</td>
+          <td style="color: rgb(255, 0, 0);">30/02/2021 10:50 AM</td>
+        </tr>
+        <tr>
+          <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgwL4r2DN1qg91OOqIViiv0Uxw-9yqo-PiQ&usqp=CAU" alt="Avatar"></td>
+          <td >Venugopal Iyer</td>
+          <td style="color: rgb(15, 93, 104);">Mechanical</td>
+          <td style="color: rgb(255, 0, 0);">30/02/2021 10:50 AM</td>
+        </tr>
+        <tr>
+          <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgwL4r2DN1qg91OOqIViiv0Uxw-9yqo-PiQ&usqp=CAU" alt="Avatar"></td>
+          <td >Venugopal Iyer</td>
+          <td style="color: rgb(15, 93, 104);">Mechanical</td>
+          <td style="color: rgb(255, 0, 0);">30/02/2021 10:50 AM</td>
+        </tr>
+        <tr>
+          <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgwL4r2DN1qg91OOqIViiv0Uxw-9yqo-PiQ&usqp=CAU" alt="Avatar"></td>
+          <td >Venugopal Iyer</td>
+          <td style="color: rgb(15, 93, 104);">Mechanical</td>
+          <td style="color: rgb(255, 0, 0);">30/02/2021 10:50 AM</td>
+        </tr>
+        
+        
+        
+        
+        
+      </table>
+      <button id="btn-scan-qr" style="color:rgb(252, 252, 252)"><i class="fa fa-qrcode"></i></button>
+
+
+      <canvas hidden="" id="qr-canvas" ></canvas>
+      
+      <div id="qr-result" hidden="">
+        <b>Data:</b> <span id="outputData"></span>
+      </div>
+
+
+    </div>
+
+    <script >
+        const qrcode1 = window.qrcode;
+
+const video = document.createElement("video");
+var canvasElement = document.getElementById("qr-canvas");
+var canvas = canvasElement.getContext("2d");
+
+const qrResult = document.getElementById("qr-result");
+const outputData = document.getElementById("outputData");
+const btnScanQR = document.getElementById("btn-scan-qr");
+
+
+let scanning = false;
+
+qrcode1.callback = res => {
+  if (res) {
+    outputData.innerText = res;
+    window.location = res;
+    scanning = false;
+
+    video.srcObject.getTracks().forEach(track => {
+      track.stop();
+    });
+
+    qrResult.hidden = false;
+    canvasElement.hidden = true;
+    btnScanQR.hidden = false;
+  }
+};
+
+btnScanQR.onclick = () => {
+  navigator.mediaDevices
+    .getUserMedia({ video: { facingMode: "environment" } })
+    .then(function(stream) {
+      scanning = true;
+      qrResult.hidden = true;
+      btnScanQR.hidden = true;
+      canvasElement.hidden = false;
+      video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+      video.srcObject = stream;
+      video.play();
+      tick();
+      scan();
+    });
+};
+
+function tick() {
+  canvasElement.height = video.videoHeight;
+  canvasElement.width = video.videoWidth;
+  canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+
+  scanning && requestAnimationFrame(tick);
+}
+
+function scan() {
+  try {
+    qrcode1.decode();
+  } catch (e) {
+    setTimeout(scan, 300);
+  }
+}
+
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+
+    </script>
+  </body>
+</html>
